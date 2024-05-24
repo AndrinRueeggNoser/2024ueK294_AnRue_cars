@@ -1,22 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField, Grid, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; 
+import { useFormik } from "formik";
+import LoginService from "../../Service/AuthService";
+import { defaultInstance } from "../../Service/Api";
+
+const validate = (values: { email: string }) => {
+  const errors: { email?: string } = {};
+
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  return errors;
+};
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      LoginService(defaultInstance)
+        .login(values)
+        .then((response: { data: { accessToken: string } }) => {
+          console.log("response", response);
+          localStorage.setItem("token", "Bearer " + response.data.accessToken);
+          navigate("/car");
+        })
+        .catch((e) => {
+          console.error(e.response.data);
+        });
+    },
+  });
 
   return (
     <Grid container justifyContent="center">
@@ -24,20 +46,22 @@ const LoginPage: React.FC = () => {
         <Typography variant="h5" align="center">
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <TextField
             label="Email"
             type="email"
-            value={email}
-            onChange={handleEmailChange}
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
             fullWidth
             margin="normal"
           />
           <TextField
             label="Password"
             type="password"
-            value={password}
-            onChange={handlePasswordChange}
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
             fullWidth
             margin="normal"
           />
