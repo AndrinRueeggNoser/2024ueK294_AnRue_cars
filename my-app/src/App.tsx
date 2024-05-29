@@ -8,7 +8,6 @@ import ViewPage from './components/Pages/ViewPage';
 import AddPage from './components/Pages/AddPage';
 
 
-
 function App() {
   return (
     <>
@@ -20,8 +19,7 @@ function App() {
           <Route path="edit/:id" element={<EditPage />} />
           <Route path="cars/:id" element={<ViewPage />} />
           <Route path="add" element={<AddPage />} />
-       
-a
+          <Route path="car" element={<CarPage />} />
           
         </Routes>
       </BrowserRouter>
