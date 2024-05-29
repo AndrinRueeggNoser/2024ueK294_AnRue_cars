@@ -5,8 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #2a2935;
-  background-color: #6aabbc;
+  background-color: #525065;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,7 +15,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #d5d6e5;
   text-decoration: inherit;
 }
 a:hover {
@@ -72,6 +71,6 @@ button:focus-visible {
   border: 1px solid #000;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: rgb(93, 14, 14);
+  background-color: rgba(21, 6, 50, 0.459);
   border-radius: 10%;
 }

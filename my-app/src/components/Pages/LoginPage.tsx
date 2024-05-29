@@ -33,7 +33,6 @@ const LoginPage: React.FC = () => {
           console.log("response", response);
           localStorage.setItem("token", "Bearer " + response.data.accessToken);
           navigate("/cars");
-          navigate("/car");
         })
         .catch((e) => {
           console.error(e.response.data);
